@@ -1,5 +1,7 @@
 .outer-container {
+    background-color: teal;
     padding: 40px;
+    min-height: 100vh;
 }
 
 .flex-container {
@@ -19,7 +21,7 @@
 }
 
 .task-pool-sidebar {
-    background-color: white;
+    background-color: ghostwhite;
     border-radius: 20px;
     box-shadow: 0 6px 12px rgba(0,0,0,0.15);
     min-height: 500px;
@@ -27,14 +29,14 @@
 }
 
 .matrix-container {
-    background: linear-gradient(to bottom right, #d16ba5, #86a8e7, #5ffbf1);
+    background: ghostwhite;
     border-radius: 20px;
     min-height: 500px;
     padding: 30px;
 }
 
 .matrix-header {
-    color: white;
+    color: black;
     font-weight: bold;
     text-align: center;
     font-size: 36px;
@@ -103,7 +105,7 @@
     width: 50%;
     font-weight: bold;
     font-size: 18px;
-    color: white;
+    color: black;
 }
 
 .matrix-label-vertical {
@@ -112,7 +114,7 @@
     text-orientation: upright;
     font-weight: bold;
     font-size: 18px;
-    color: white;
+    color: black;
     margin-right: 10px;
 }
 
@@ -128,7 +130,7 @@
 .matrix-layout {
     display: grid;
     grid-template-columns: 100px 1fr 1fr;
-    grid-template-rows: 60px 1fr 1fr;
+    grid-template-rows: 80px 1fr 1fr;
     gap: 10px;
     align-items: center;
     text-align: center;
@@ -137,7 +139,7 @@
 .top-label {
     font-weight: bold;
     font-size: 18px;
-    color: white;
+    color: black;
 }
 
 .side-label {
@@ -145,20 +147,42 @@
     transform-origin: center center;
     font-weight: bold;
     font-size: 20px;
-    color: white;
+    color: black;
     white-space: nowrap;
     text-align: center;
 }
 
-.matrix-layout .quadrant {
-    background: white;
-    border-radius: 10px;
-    padding: 10px;
-    min-width: 250px;
-    min-height: 180px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+
+.quadrant:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
+
+
+.quadrant {
+    min-height: 250px; /* before maybe 180px? */
+    min-width: 250px;  /* increase width */
+    background: white;
+    border-radius: 12px;
+    padding: 10px;
+    position: relative;
+    overflow-y: auto; /* If cards overflow */
+}
+
+
+.do-quadrant {
+    background-color: #4CAF50; /* nice green */
+}
+
+.schedule-quadrant {
+    background-color: #FF9800; /* nice orange */
+}
+
+.delegate-quadrant {
+    background-color: #2196F3; /* nice blue */
+}
+
+.delete-quadrant {
+    background-color: #F44336; /* nice red */
+}
+
