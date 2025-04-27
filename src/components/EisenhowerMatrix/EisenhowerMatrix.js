@@ -76,50 +76,42 @@ function EisenhowerMatrix() {
                     <div className="matrix-container p-4">
                         <h2 className="matrix-header mb-4">Eisenhower Matrix</h2>
 
-                        {/* Labels: Urgent / Not Urgent */}
-                        <div className="d-flex justify-content-center mb-2">
-                            <div className="matrix-label text-center">Urgent</div>
-                            <div className="matrix-label text-center">Not Urgent</div>
-                        </div>
+                        {/* 3x3 Grid Layout */}
+                        <div className="matrix-layout">
+                            {/* Top Row */}
+                            <div></div> {/* Empty cell */}
+                            <div className="top-label">Urgent</div>
+                            <div className="top-label">Not Urgent</div>
 
-                        <div className="d-flex">
-                            {/* Labels: Important / Not Important */}
-                            <div className="d-flex flex-column justify-content-between me-2" style={{ height: "100%" }}>
-                                <div className="side-label">Important</div>
-                                <div className="side-label">Not Important</div>
-                            </div>
+                            {/* Second Row */}
+                            <div className="side-label">Important</div>
+                            <Quadrant
+                                title="Do"
+                                tasks={tasks.Do}
+                                onDrop={(e) => handleDrop(e, "Do")}
+                                onDragOver={allowDrop}
+                            />
+                            <Quadrant
+                                title="Schedule"
+                                tasks={tasks.Schedule}
+                                onDrop={(e) => handleDrop(e, "Schedule")}
+                                onDragOver={allowDrop}
+                            />
 
-                            {/* Quadrants */}
-                            <div className="w-100">
-                                <div className="row">
-                                    <Quadrant
-                                        title="Do"
-                                        tasks={tasks.Do}
-                                        onDrop={(e) => handleDrop(e, "Do")}
-                                        onDragOver={allowDrop}
-                                    />
-                                    <Quadrant
-                                        title="Schedule"
-                                        tasks={tasks.Schedule}
-                                        onDrop={(e) => handleDrop(e, "Schedule")}
-                                        onDragOver={allowDrop}
-                                    />
-                                </div>
-                                <div className="row">
-                                    <Quadrant
-                                        title="Delegate"
-                                        tasks={tasks.Delegate}
-                                        onDrop={(e) => handleDrop(e, "Delegate")}
-                                        onDragOver={allowDrop}
-                                    />
-                                    <Quadrant
-                                        title="Delete"
-                                        tasks={tasks.Delete}
-                                        onDrop={(e) => handleDrop(e, "Delete")}
-                                        onDragOver={allowDrop}
-                                    />
-                                </div>
-                            </div>
+                            {/* Third Row */}
+                            <div className="side-label">Not Important</div>
+                            <Quadrant
+                                title="Delegate"
+                                tasks={tasks.Delegate}
+                                onDrop={(e) => handleDrop(e, "Delegate")}
+                                onDragOver={allowDrop}
+                            />
+                            <Quadrant
+                                title="Delete"
+                                tasks={tasks.Delete}
+                                onDrop={(e) => handleDrop(e, "Delete")}
+                                onDragOver={allowDrop}
+                            />
                         </div>
 
                     </div>
