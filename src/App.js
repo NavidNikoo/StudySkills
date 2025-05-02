@@ -17,6 +17,7 @@ function App() {
                     <Routes>
                         <Route path="/calendar" element={<Calendar />} />
                         <Route path="/matrix" element={<EisenhowerMatrix />} />
+                        <Route path="/login" element={<LoginSignup />} />
                     </Routes>
                 </div>
             </div>
