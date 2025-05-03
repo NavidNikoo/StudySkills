@@ -1,44 +1,105 @@
-/* calendar.css */
+/* Sleek & Digital Theme */
+
 .rbc-calendar {
     font-family: 'Inter', sans-serif;
+    background-color: #ffffff;
+    color: #222;
     border-radius: 12px;
-    background-color: #fff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    padding: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    padding: 0.75rem;
 }
 
 .rbc-toolbar {
     background: transparent;
-    padding: 0;
+    color: #222;
     margin-bottom: 1rem;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+}
+
+.rbc-btn-group button {
+    border: 1px solid #dee2e6;
+    background: white;
+    color: #222;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border-radius: 6px;
+    margin-right: 0.5rem;
+}
+
+.rbc-btn-group button:hover {
+    background-color: #f5f7fa;
 }
 
 .rbc-month-view,
 .rbc-time-view,
 .rbc-agenda-view {
-    border-radius: 12px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #dee2e6;
 }
 
 .rbc-header {
-    background-color: #f7f9fc;
-    font-weight: 500;
-    color: #333;
-    padding: 0.75rem;
-    border-bottom: 1px solid #eee;
+    background-color: #f5f7fa;
+    color: #222;
+    font-weight: 600;
+    padding: 0.75rem 0.5rem;
+    border-bottom: 1px solid #dee2e6;
+    text-align: center;
+}
+
+.rbc-date-cell {
+    color: #222;
 }
 
 .rbc-today {
-    background-color: #eaf4ff !important;
+    background-color: #e0f7ff !important;
+}
+
+.rbc-off-range {
+    color: #999;
+    background-color: #f9fafb;
 }
 
 .rbc-event {
-    background-color: #0d6efd;
-    color: #fff;
-    padding: 2px 6px;
+    background-color: #4a90e2;
+    color: white;
+    font-size: 0.8rem;
+    padding: 3px 6px;
     border-radius: 4px;
-    font-size: 0.85rem;
+    border: 1px solid #3f51b5;
+    transition: 0.2s ease;
+}
+
+.rbc-event:hover {
+    background-color: #3f51b5;
+    cursor: pointer;
 }
 
 .rbc-selected-cell {
-    background: #d0ebff !important;
+    background-color: #fcefc7 !important;
+}
+
+.rbc-time-content,
+.rbc-timeslot-group {
+    border-color: #dee2e6;
+}
+
+.rbc-agenda-date-cell,
+.rbc-agenda-time-cell,
+.rbc-agenda-event-cell {
+    color: #222;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* Bootstrap Button Overrides */
+.btn-outline-primary {
+    border-color: #4a90e2;
+    color: #4a90e2;
+}
+.btn-outline-primary:hover {
+    background-color: #4a90e2;
+    color: white;
 }
