@@ -1,8 +1,7 @@
-import { Calendar as BigCalendar, momentLocalizer, Views } from 'react-big-calendar';
+import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-import { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import EventModal from './EventModal';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -11,79 +10,72 @@ import './calendar.css';
 const localizer = momentLocalizer(moment);
 
 function Calendar() {
-
     const [events, setEvents] = useState([]);
-    const [modalVisible, setModalVisible] = useState(false);
     const [newEvent, setNewEvent] = useState({
         title: '',
+        location: '',
         start: new Date(),
         end: new Date(),
     });
     const [currentDate, setCurrentDate] = useState(new Date());
-    const [pickerOpen, setPickerOpen] = useState(false); // 👈 Tracks if date picker is open
+    const [pickerOpen, setPickerOpen] = useState(false);
+    const [currentView, setCurrentView] = useState('month');
+    const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+    const [showMiniEditor, setShowMiniEditor] = useState(false);
+    const [editorPosition, setEditorPosition] = useState({ top: 0, left: 0 });
 
-    const handleSelectSlot = ({ start, end }) => {
-        if (pickerOpen) return; // 🛑 Prevent modal from opening when date picker is in use
-        setNewEvent({ title: '', start, end });
-        setModalVisible(true);
+    const handleSelectSlot = ({ start, end, box }) => {
+        if (pickerOpen) return;
+        const rect = box?.clientRect || { top: 0, left: 0 };
+        setNewEvent({ title: '', location: '', start, end });
+        setEditorPosition({ top: rect.top + 30, left: rect.left + 100 });
+        setShowMiniEditor(true);
     };
 
     const handleSave = () => {
         setEvents([...events, newEvent]);
-        setModalVisible(false);
+        setShowMiniEditor(false);
     };
 
     const goToToday = () => setCurrentDate(new Date());
     const goToPrev = () => setCurrentDate(moment(currentDate).subtract(1, 'month').toDate());
     const goToNext = () => setCurrentDate(moment(currentDate).add(1, 'month').toDate());
 
-    const [currentView, setCurrentView] = useState('month');
-
-
+    const CustomDateButton = forwardRef(({ value, onClick }, ref) => (
+        <Button variant="outline-primary" onClick={onClick} ref={ref}>📅</Button>
+    ));
 
     return (
         <div>
             <div className="d-flex justify-content-between align-items-center mb-3 px-2">
-                {/* Left: Navigation Buttons Grouped */}
                 <ButtonGroup>
                     <div>
                         <DatePicker
                             selected={currentDate}
-                            onChange={(date) => setCurrentDate(date)}
-                            dateFormat="MMMM d, yyyy"
+                            onChange={(date) => {
+                                setCurrentDate(date);
+                                setIsCalendarOpen(false);
+                            }}
+                            open={isCalendarOpen}
+                            onClickOutside={() => setIsCalendarOpen(false)}
+                            onCalendarOpen={() => setPickerOpen(true)}
+                            onCalendarClose={() => setPickerOpen(false)}
+                            onInputClick={() => setIsCalendarOpen(prev => !prev)}
                             showMonthDropdown
                             showYearDropdown
                             dropdownMode="select"
                             todayButton="Today"
-                            minDate={new Date(1900, 0, 1)}     // ✅ Start of range
-                            maxDate={new Date(2100, 11, 31)}   // ✅ End of range
-                            onCalendarOpen={() => setPickerOpen(true)}
-                            onCalendarClose={() => {
-                                setTimeout(() => setPickerOpen(false), 200);
-                            }}
-                            preventOpenOnFocus={true}
+                            preventOpenOnFocus
                             showPopperArrow={false}
-                            onFocusCapture={() => setPickerOpen(true)}
-                            customInput={
-                                <Button variant="outline-primary">
-                                    📅
-                                </Button>
-                            }
+                            customInput={<CustomDateButton />}
                         />
-
-
                     </div>
                     <Button variant="outline-primary" onClick={goToPrev}>←</Button>
                     <Button variant="outline-primary" onClick={goToNext}>→</Button>
                     <Button variant="outline-primary" onClick={goToToday}>Today</Button>
                 </ButtonGroup>
-
-                {/* Center: Current Month Display */}
                 <h5 className="mb-0">{moment(currentDate).format('MMMM YYYY')}</h5>
-
-                {/* Right: Empty div to center the heading */}
                 <div style={{ width: '160px' }}></div>
-
                 <ButtonGroup>
                     {['month', 'week', 'day', 'agenda'].map(view => (
                         <Button
@@ -95,11 +87,8 @@ function Calendar() {
                         </Button>
                     ))}
                 </ButtonGroup>
-
-
             </div>
 
-            {/* Calendar View */}
             <BigCalendar
                 view={currentView}
                 onView={setCurrentView}
@@ -116,14 +105,50 @@ function Calendar() {
                 toolbar={false}
             />
 
-            {/* Event Modal */}
-            <EventModal
-                show={modalVisible}
-                onHide={() => setModalVisible(false)}
-                onSave={handleSave}
-                eventData={newEvent}
-                setEventData={setNewEvent}
-            />
+            {showMiniEditor && (
+                <div
+                    style={{
+                        position: 'absolute',
+                        top: editorPosition.top,
+                        left: editorPosition.left,
+                        backgroundColor: 'white',
+                        padding: '1rem',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                        width: '260px',
+                        zIndex: 1000
+                    }}
+                >
+                    <h6>New Event</h6>
+                    <input
+                        type="text"
+                        placeholder="Event Title"
+                        value={newEvent.title}
+                        onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+                        className="form-control mb-2"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Location or Video Call"
+                        value={newEvent.location}
+                        onChange={(e) => setNewEvent({ ...newEvent, location: e.target.value })}
+                        className="form-control mb-2"
+                    />
+                    <input
+                        type="datetime-local"
+                        value={moment(newEvent.start).format('YYYY-MM-DDTHH:mm')}
+                        onChange={(e) => setNewEvent({ ...newEvent, start: new Date(e.target.value) })}
+                        className="form-control mb-2"
+                    />
+                    <input
+                        type="datetime-local"
+                        value={moment(newEvent.end).format('YYYY-MM-DDTHH:mm')}
+                        onChange={(e) => setNewEvent({ ...newEvent, end: new Date(e.target.value) })}
+                        className="form-control mb-2"
+                    />
+                    <Button onClick={handleSave}>Save</Button>
+                </div>
+            )}
         </div>
     );
 }
