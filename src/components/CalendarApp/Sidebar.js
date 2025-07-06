@@ -6,7 +6,6 @@ export default function Sidebar() {
         <Nav className="flex-column bg-light vh-100 p-3">
             <Nav.Link as={Link} to="/calendar">Calendar</Nav.Link>
             <Nav.Link as={Link} to="/matrix">Eisenhower Matrix</Nav.Link>
-            <Nav.Link as={Link} to="/login">Login</Nav.Link>
         </Nav>
     );
 }
