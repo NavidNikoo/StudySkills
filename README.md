@@ -21,18 +21,6 @@ This project is designed to help users plan effectively, prioritize what's impor
 
 ---
 
-## 📸 Screenshots
-
-### Eisenhower Matrix View
-![Matrix Screenshot](./public/matrix-screenshot.png)
-
-### Calendar View
-![Calendar Screenshot](./public/calendar-screenshot.png)
-
-> Tip: Rename and move your screenshots into `/public` and reference them like above, or link to hosted versions if deploying.
-
----
-
 ## 🛠️ Tech Stack
 
 - React.js + React Hooks
